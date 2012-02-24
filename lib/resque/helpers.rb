@@ -29,6 +29,8 @@ module Resque
       begin
         ::MultiJson.decode(object)
       rescue ::MultiJson::DecodeError => e
+        ResqueJobs::Base.logger.error "Problem decoding this: #{object.inspect}"
+        ResqueJobs::Base.logger.error e.message
         raise DecodeException, e.message, e.backtrace
       end
     end
